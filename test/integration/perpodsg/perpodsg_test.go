@@ -164,7 +164,7 @@ var _ = Describe("Branch ENI Pods", func() {
 					Namespace(namespace).
 					PodMatchLabel(sgpLabelKey, sgpLabelValue).
 					SecurityGroup(securityGroups2).Build()
-				Expect(err).NotTo(HaveOccurred())
+				Expect(err).To(HaveOccurred())
 			})
 
 			JustAfterEach(func() {
