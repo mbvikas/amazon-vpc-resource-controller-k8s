@@ -3,7 +3,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-permissions: write-all
+permissions:
+  pull-requests: write
 
 jobs:
   add-label:
