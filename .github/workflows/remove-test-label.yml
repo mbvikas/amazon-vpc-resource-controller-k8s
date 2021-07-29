@@ -1,7 +1,10 @@
 name: "Add Label needs:ok-to-test"
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, synchronize, reopened]
+
+permissions: write-all
+
 jobs:
   add-label:
     runs-on: ubuntu-latest
