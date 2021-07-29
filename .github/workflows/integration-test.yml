@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - test-actions # REMOVE ME
   pull_request:
     types: [labeled]
     branches:
@@ -14,7 +15,9 @@ jobs:
     env:
       CLUSTER_NAME: vpc-rc-ci-test
       K8S_VERSION: 1.19
-    if: contains(github.event.pull_request.labels.*.name, 'ok-to-test')
+    if: | # Safeguards to prevent misuse of integration test
+    contains(github.event.pull_request.labels.*.name, 'ok-to-test') &&
+      !contains(github.event.pull_request.labels.*.name, 'needs:ok-to-test')
     steps:
       - name: clean work dir from previous runs
         run: |
