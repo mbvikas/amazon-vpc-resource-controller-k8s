@@ -1,6 +1,6 @@
 name: "Add Label needs:ok-to-test"
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize, reopened]
 jobs:
   add-label:
