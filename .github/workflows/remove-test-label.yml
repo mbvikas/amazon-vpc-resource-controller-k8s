@@ -1,9 +1,7 @@
 name: "Add Label needs:ok-to-test"
 on:
   pull_request:
-    - synchronize
-    - reopened
-    - opened
+    types: [opened, synchronize, reopened]
 jobs:
   add-label:
     runs-on: ubuntu-latest
