@@ -1,0 +1,13 @@
+name: "Add Label needs:ok-to-test"
+on:
+  pull_request:
+    - synchronize
+    - reopened
+    - opened
+jobs:
+  add-label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/labeler@v3
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
