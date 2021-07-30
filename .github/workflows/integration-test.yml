@@ -11,7 +11,7 @@ on:
       - test-actions # REMOVE ME
 jobs:
   labeler:
-    if: | # Add/Re-Add need:ok-to-test anytime there's a commit or PR is opened
+    if: | # Add/Re-Add testing-disabled anytime there's a commit or PR is opened
       github.event.action == 'opened' ||
       github.event.action == 'synchronize' ||
       github.event.action == 'reopened'
@@ -28,11 +28,10 @@ jobs:
     env:
       CLUSTER_NAME: vpc-rc-ci-test
       K8S_VERSION: 1.19
-    if: | # Run test only when ok-to-test is added and needs:ok-to-test removed
+    if: | # Run test only when testing-disabled removed
       (github.event.action == 'labeled' ||
       github.event.action == 'unlabeled') &&
-      (contains(github.event.pull_request.labels.*.name, 'ok-to-test') &&
-      !contains(github.event.pull_request.labels.*.name, 'test-disabled'))
+      !contains(github.event.pull_request.labels.*.name, 'test-disabled')
     steps:
       - name: clean work dir from previous runs
         run: |
