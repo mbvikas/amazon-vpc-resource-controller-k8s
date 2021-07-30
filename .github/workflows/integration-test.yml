@@ -23,7 +23,6 @@ jobs:
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
   integration-test:
-    needs: labeler # Prevent Running integration test until labeler has run
     name: integration-test
     runs-on: self-hosted
     env:
