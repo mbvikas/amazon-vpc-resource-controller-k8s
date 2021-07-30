@@ -5,20 +5,35 @@ on:
       - master
       - test-actions # REMOVE ME
   pull_request:
-    types: [labeled]
+    types: [labeled, unlabeled, opened, synchronize, reopened]
     branches:
       - master
       - test-actions # REMOVE ME
 jobs:
-  build:
+  labeler:
+    if: | # Add/Re-Add need:ok-to-test anytime there's a commit or PR is opened
+      github.event_type == 'opened' ||
+      github.event_type == 'synchronize' ||
+      github.event_type == 'reopened'
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/labeler@v3
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+  integration-test:
+    needs: labeler # Prevent Running integration test until labeler has run
     name: integration-test
     runs-on: self-hosted
     env:
       CLUSTER_NAME: vpc-rc-ci-test
       K8S_VERSION: 1.19
-    if: |
-      contains(github.event.pull_request.labels.*.name, 'ok-to-test') &&
-      !contains(github.event.pull_request.labels.*.name, 'needs:ok-to-test')
+    if: | # Run test only when ok-to-test is added and needs:ok-to-test removed
+      (github.event_type == 'labeled' ||
+      github.event_type == 'unlabeled') &&
+      (contains(github.event.pull_request.labels.*.name, 'ok-to-test') &&
+      !contains(github.event.pull_request.labels.*.name, 'needs:ok-to-test'))
     steps:
       - name: clean work dir from previous runs
         run: |
