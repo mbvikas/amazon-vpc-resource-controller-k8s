@@ -32,7 +32,7 @@ jobs:
       (github.event.action == 'labeled' ||
       github.event.action == 'unlabeled') &&
       (contains(github.event.pull_request.labels.*.name, 'ok-to-test') &&
-      !contains(github.event.pull_request.labels.*.name, 'needs:ok-to-test'))
+      !contains(github.event.pull_request.labels.*.name, 'test-disabled'))
     steps:
       - name: clean work dir from previous runs
         run: |
