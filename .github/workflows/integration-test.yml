@@ -29,9 +29,9 @@ jobs:
       CLUSTER_NAME: vpc-rc-ci-test
       K8S_VERSION: 1.19
     if: | # Run test only when testing-disabled removed
-      (github.event.action == 'labeled' ||
-      github.event.action == 'unlabeled') &&
-      !contains(github.event.pull_request.labels.*.name, 'test-disabled')
+      github.event.type == 'push' || 
+      ((github.event.action == 'labeled' || github.event.action == 'unlabeled') &&
+      !contains(github.event.pull_request.labels.*.name, 'test-disabled'))
     steps:
       - name: clean work dir from previous runs
         run: |
