@@ -23,5 +23,4 @@ The controller uses the same name as the controller that manages IPv4 Address fo
 This library is licensed under the Apache 2.0 License. 
 
 ## Contributing
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) 
+  
