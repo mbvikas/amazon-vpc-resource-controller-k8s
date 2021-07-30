@@ -10,6 +10,12 @@ on:
       - master
       - test-actions # REMOVE ME
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      EVENT: {{github.event_type}}
+    run: |
+      echo $EVENT
   labeler:
     if: | # Add/Re-Add need:ok-to-test anytime there's a commit or PR is opened
       github.event_type == 'opened' ||
